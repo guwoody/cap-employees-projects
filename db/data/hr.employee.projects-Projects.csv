@@ -1,0 +1,6 @@
+ID,name,description,status_code,plannedDate,projectLead_ID,createdAt,createdBy,modifiedAt,modifiedBy
+7f2a81c4-b3d8-4e01-9a72-6b5d3a2e1f84,Global Onboarding Redesign,Revamping the new hire experience for remote employees,I,2026-03-15
+c4e9a22f-89d3-4b67-b50a-f9123e4c7d52,Annual Benefits Enrollment,Coordination of the yearly health insurance selection period,I,2026-11-01
+a3d1f8e2-55b4-4c91-bd29-77e4c112a390,LMS Migration,Moving internal training modules to the new SAP SuccessFactors instance,I,2026-06-30
+92b4a5d7-11f8-423c-a8e0-33c1d9f4e2b1,Diversity & Inclusion Audit,External assessment of current hiring practices and bias mitigation,I,2026-08-15
+e8f3c1a2-99d4-4b55-a2e1-77d4c112b987,Leadership Fast-Track 2026,High-potential employee development program kickoff,I,2026-01-20
