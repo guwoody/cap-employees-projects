@@ -23,6 +23,7 @@ mta_archives/
 *.orig
 *.log
 *.github
+*.vscode
 
 *.iml
 *.flattened-pom.xml
