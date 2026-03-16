@@ -54,9 +54,7 @@ module.exports = cds.service.impl(async function () {
 
             if (employeeIDs.length > 0) {
                 req.query.SELECT.where.splice(projectRefIndex, 3);
-                console.log('Where clause after cleaning it:', req.query.SELECT.where);
-                req.query.SELECT.where.push({ ref: ['ID']}, 'not in', { list: employeeIDs }); 
-                console.log('Where clause final', JSON.stringify(req.query.SELECT.where));       
+                req.query.SELECT.where.push({ ref: ['ID']}, 'not in', { list: employeeIDs });      
             }else {
                 req.query.SELECT.where = [];
             }

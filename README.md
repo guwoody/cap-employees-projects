@@ -44,8 +44,8 @@ Link entity connecting projects with their support team members:
 
 ### **ProjectStatus**
 Code list entity defining project status values:
-- `INITIALIZED` ('I'): Project created but not started
-- `INPROGRESS` ('P'): Project is currently active
+- `PENDING` ('P'): Project created but not yet started
+- `INPROGRESS` ('I'): Project is currently active
 - `DONE` ('D'): Project completed
 
 ### **Locations**
@@ -64,23 +64,33 @@ The OData service is defined in [srv/service.cds](srv/service.cds) and exposes t
 **Entities:**
 - `Employees`: Projection of employee data with redirect capability for navigation
 - `EmployeesValueHelp`: Enhanced employee view with a virtual `project` field, used for value list scenarios
-- `Projects`: Project data with an `assignLead` custom action
+- `Projects`: Project data with custom actions for project lifecycle management
 - `ProjectSupportTeams`: Support team member assignments
 - `ProjectStatus`: Project status codes
 
 **Custom Actions:**
 - `assignLead`: Assigns an employee as the project lead for a draft project
   - Parameter: `employeeID` (String) - The ID of the employee to assign as lead
-  - Validation: Ensures the employee exists and prevents duplicate assignments by excluding already assigned project members
+  - Validation: Ensures the employee exists and prevents duplicate assignments
+- `startImplementation`: Transitions project status from PENDING to INPROGRESS
+- `completeProject`: Transitions project status from INPROGRESS to DONE
 
 **Features:**
 - Draft enablement for both Employees and Projects entities allowing offline edits
+- Status flow handling with controlled state transitions via actions
 - Value list annotations with side effects for dynamic employee filtering
 - Association-based filtering to prevent duplicate team assignments
 
 ## Service Implementation
 
-The business logic is implemented in [srv/service.js](srv/service.js) and includes:
+The business logic is implemented in [srv/service.js](srv/service.js) and [srv/projects-flows.cds](srv/projects-flows.cds) and includes:
+
+### **Status Flow Handling**
+Defined in [srv/projects-flows.cds](srv/projects-flows.cds), provides controlled project lifecycle transitions:
+- `startImplementation`: Allows transition from PENDING ('P') to INPROGRESS ('I')
+- `completeProject`: Allows transition from INPROGRESS ('I') to DONE ('D')
+
+Status transitions are restricted and only valid from specified source states, preventing invalid state changes.
 
 ### **assignLead Action Implementation**
 Handles the assignment of project leads with the following logic:
@@ -92,11 +102,11 @@ Handles the assignment of project leads with the following logic:
 ### **EmployeesValueHelp Filtering**
 Implements intelligent filtering for employee value lists to prevent double-assignment:
 1. Extracts the project ID from the value list query
-2. Retrieves all employees already assigned to the project (as lead or support team member)
+2. Retrieves all employees already assigned to the project draft (as lead or support team member)
 3. Filters out already-assigned employees from the value list results
 4. Returns only available employees for team assignment
 
-This ensures users can only select unassigned employees when building the support team.
+This ensures users can only select unassigned employees when building the support team. The filtering operates on draft data only, supporting the draft paradigm for project modifications.
 
 ## Key Features
 

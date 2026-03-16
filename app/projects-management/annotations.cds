@@ -239,3 +239,7 @@ annotate service.Employees with {
     role @Common.FieldControl : #ReadOnly
 };
 
+annotate service.ProjectStatus with {
+    name @Common.FieldControl : #ReadOnly
+};
+
