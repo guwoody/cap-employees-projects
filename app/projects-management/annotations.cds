@@ -56,13 +56,25 @@ annotate service.Projects with @(
         },
         {
             $Type : 'UI.DataField',
-            Label : 'status',
-            Value : status,
+            Value : status.name,
+            Label : '{i18n>Status}',
         },
         {
             $Type : 'UI.DataField',
             Label : 'plannedDate',
             Value : plannedDate,
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeesProjectsService.startImplementation',
+            Label : '{i18n>StartImplementation}',
+            @UI.Hidden : true
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeesProjectsService.completeProject',
+            Label : '{i18n>CompleteProject}',
+            @UI.Hidden : true
         },
     ],
     UI.HeaderInfo : {
@@ -73,6 +85,20 @@ annotate service.Projects with @(
         TypeName : '',
         TypeNamePlural : '',
     },
+    UI.Identification : [
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeesProjectsService.startImplementation',
+            Label : '{i18n>startImplementation}',
+            ![@UI.Hidden] : (status.code != 'P')
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeesProjectsService.completeProject',
+            Label : '{i18n>completeProject}',
+            ![@UI.Hidden] : (status.code != 'I')
+        },
+    ],
     UI.FieldGroup #ProjectDetails : {
         $Type : 'UI.FieldGroupType',
         Data : [

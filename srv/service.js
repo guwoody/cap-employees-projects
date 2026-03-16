@@ -40,11 +40,6 @@ module.exports = cds.service.impl(async function () {
             }
 
             if (project_ID) {
-            const projectLead = await SELECT.one('projectLead_ID').from(Projects)
-                .where({ ID: project_ID });
-        
-            const projectSupportTeamMembers = await SELECT('employee_ID').from(ProjectSupportTeams)
-                .where({ project_ID: project_ID });
 
             const projectLeadDrafts = await SELECT.one('projectLead_ID').from(Projects.drafts)
                 .where({ ID: project_ID });
@@ -53,9 +48,7 @@ module.exports = cds.service.impl(async function () {
                 .where({ project_ID: project_ID });
         
             const employeeIDs = [
-                projectLead?.projectLead_ID, 
-                projectLeadDrafts?.projectLead_ID, 
-                ...projectSupportTeamMembers?.map(member => member.employee_ID), 
+                projectLeadDrafts?.projectLead_ID,
                 ...projectSupportTeamMembersDrafts?.map(member => member.employee_ID)
             ].filter(Boolean).map(id => ({ val: id }));
 

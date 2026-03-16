@@ -7,7 +7,7 @@ entity Projects : cuid, managed {
     name: String;
     description: String;
     @flow.status
-    @readonly status : Association to ProjectStatus default 'I';
+    @readonly status : Association to ProjectStatus default #PENDING;
     plannedDate: Date;
     projectLead: Association to Employees;
     projectSupportTeam: Composition of many ProjectSupportTeams on projectSupportTeam.project = $self;
@@ -16,8 +16,8 @@ entity Projects : cuid, managed {
 
 entity ProjectStatus: CodeList {
     key code: String @Common.Label:'Status Code' enum {
-        INITIALIZED = 'I';
-        INPROGRESS = 'P';
+        PENDING = 'P';
+        INPROGRESS = 'I';
         DONE = 'D';
     };
 }

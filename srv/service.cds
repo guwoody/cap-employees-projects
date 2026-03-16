@@ -55,6 +55,20 @@ service EmployeesProjectsService {
             )
             employeeID : String
         );
+        @(
+            cds.odata.bindingparameter.name: '_it',
+            Common.SideEffects : {
+                TargetEntities   : ['_it']
+            }
+        )
+        action startImplementation();
+         @(
+            cds.odata.bindingparameter.name: '_it',
+            Common.SideEffects : {
+                TargetEntities   : ['_it']
+            }
+        )
+        action completeProject();
     };
 
     entity ProjectSupportTeams as projection on db.ProjectSupportTeams;

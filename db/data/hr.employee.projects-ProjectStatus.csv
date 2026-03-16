@@ -1,4 +1,4 @@
 code,name
-I,Initialized
-P,In Progress
+P,Pending
+I,In Progress
 D,Done
