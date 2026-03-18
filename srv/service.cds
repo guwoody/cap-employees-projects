@@ -74,6 +74,8 @@ service EmployeesProjectsService {
     entity ProjectSupportTeams as projection on db.ProjectSupportTeams;
 
     entity ProjectStatus as projection on db.ProjectStatus;
+
+    entity Locations as projection on db.Locations;
 }
 
 annotate EmployeesProjectsService.ProjectSupportTeams with @(
@@ -121,4 +123,7 @@ annotate EmployeesProjectsService.ProjectSupportTeams with @(
 };
 
 annotate EmployeesProjectsService.Employees with @odata.draft.enabled;
-annotate EmployeesProjectsService.Projects with @odata.draft.enabled;
+annotate EmployeesProjectsService.Projects with @(
+    odata.draft.enabled,
+    UI.UpdateHidden : { $edmJson: { $Eq: [ { $Path: 'status/code' }, 'D' ] } },
+    );

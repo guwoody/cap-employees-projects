@@ -46,12 +46,12 @@ annotate service.Projects with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'name',
+            Label : '{i18n>Name}',
             Value : name,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'description',
+            Label : '{i18n>Description}',
             Value : description,
         },
         {
@@ -61,7 +61,7 @@ annotate service.Projects with @(
         },
         {
             $Type : 'UI.DataField',
-            Label : 'plannedDate',
+            Label : '{i18n>PlannedDate}',
             Value : plannedDate,
         },
         {
@@ -90,13 +90,13 @@ annotate service.Projects with @(
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeesProjectsService.startImplementation',
             Label : '{i18n>startImplementation}',
-            ![@UI.Hidden] : (status.code != 'P')
+            @UI.Hidden : { $edmJson: { $Or: [ { $Ne: [ { $Path: 'status/code' }, 'P' ] }, { $Not: { $Path: 'IsActiveEntity' } } ] } },
         },
         {
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeesProjectsService.completeProject',
             Label : '{i18n>completeProject}',
-            ![@UI.Hidden] : (status.code != 'I')
+            @UI.Hidden : { $edmJson: { $Or: [ { $Ne: [ { $Path: 'status/code' }, 'I' ] }, { $Not: { $Path: 'IsActiveEntity' } } ] } }
         },
     ],
     UI.FieldGroup #ProjectDetails : {
@@ -104,12 +104,17 @@ annotate service.Projects with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'description',
+                Value : name,
+                Label : '{i18n>Title}',
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : '{i18n>Description}',
                 Value : description,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'plannedDate',
+                Label : '{i18n>PlannedDate}',
                 Value : plannedDate,
             },
             {
@@ -151,22 +156,27 @@ annotate service.Projects with @(
             {
                 $Type : 'UI.DataField',
                 Value : projectLead.name,
-                Label : 'name',
+                Label : '{i18n>Name}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : projectLead.systemUser,
-                Label : 'systemUser',
+                Label : '{i18n>SystemUser}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : projectLead.role,
-                Label : 'role',
+                Label : '{i18n>Role}',
             },
             {
                 $Type : 'UI.DataFieldForAction',
                 Action : 'EmployeesProjectsService.assignLead',
                 Label : 'Assign Lead',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : projectLead.location.name,
+                Label : '{i18n>Location}',
             },
         ],
     },
@@ -207,22 +217,27 @@ annotate service.ProjectSupportTeams with @(
         {
             $Type : 'UI.DataField',
             Value : employee_ID,
-            Label : 'Employee',
+            Label : '{i18n>Employee}',
         },
         {
             $Type : 'UI.DataField',
             Value : employee.name,
-            Label : 'Name',
+            Label : '{i18n>Name}',
         },
         {
             $Type : 'UI.DataField',
             Value : employee.systemUser,
-            Label : 'System User',
+            Label : '{i18n>SystemUser}',
         },
         {
             $Type : 'UI.DataField',
             Value : employee.role,
-            Label : 'Role',
+            Label : '{i18n>Role}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : employee.location.name,
+            Label : '{i18n>Location}',
         },
     ]
 );
@@ -240,6 +255,16 @@ annotate service.Employees with {
 };
 
 annotate service.ProjectStatus with {
+    name @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Employees with {
+    location @(
+        Common.FieldControl : #ReadOnly,
+    )
+};
+
+annotate service.Locations with {
     name @Common.FieldControl : #ReadOnly
 };
 
