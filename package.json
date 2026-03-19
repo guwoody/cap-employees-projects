@@ -26,6 +26,7 @@
     "app/projects-management",
     "app/employees-management",
     "app/employees-management",
-    "app/projects-management"
+    "app/projects-management",
+    "app/employees-management"
   ]
 }
